@@ -45,20 +45,14 @@ while True:
 
         mask_area = frame[top_left[1]: top_left[1] + mask_height, 
                     top_left[0]: top_left[0] + mask_width]
-        mask_area_without_mask = cv2.bitwise_and(mask_area, mask_area, mask=mask_mask)
-        final_mask = cv2.add(mask_area_without_mask, face_mask)
+           
+        if (cv2.cvtColor(mask_area, cv2.COLOR_BGR2GRAY)).shape == mask_mask.shape :  
+            mask_area_without_mask = cv2.bitwise_and(mask_area, mask_area, mask=mask_mask)
 
-        frame[top_left[1]: top_left[1] + mask_height, 
-                    top_left[0]: top_left[0] + mask_width,] = final_mask
- 
-        #cv2.imshow("Face mask", face_mask)
-        #cv2.imshow("Mask area", mask_area)
-        #cv2.imshow("Mask mask", mask_mask)
+            final_mask = cv2.add(mask_area_without_mask, face_mask)
 
-        #print(mask_area.shape)
-        #print(final_mask.shape)
-        #print(mask_image.shape)
-        #print(face_mask.shape)
+            frame[top_left[1]: top_left[1] + mask_height, 
+                        top_left[0]: top_left[0] + mask_width,] = final_mask
 
     cv2.imshow("Frame", frame)
 
